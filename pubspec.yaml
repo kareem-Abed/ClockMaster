@@ -41,7 +41,11 @@ dependencies:
   get: ^4.6.6
   persistent_bottom_nav_bar: ^5.0.0
   font_awesome_flutter: ^10.6.0
-
+  circular_progress_stack: ^0.0.3
+  dashed_circular_progress_bar: ^0.0.6
+  intl:
+  timezone:
+  http:
 
 dev_dependencies:
   flutter_test:

@@ -28,25 +28,36 @@ class _State extends State<Stopwatch_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 32,
-              horizontal: 16,
-            ),
-            child: Column(
-              children: <Widget>[
-                Timer(),
-                const SizedBox(
-                  height: 30,
-                ),
-                Laps(),
-                const SizedBox(
-                  height: 30,
-                ),
-                Controls(),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 15,
+            horizontal: 16,
+          ),
+          child: Flex(
+            direction: Axis.vertical,
+            children: <Widget>[
+              // const SizedBox(
+              //   height: 50,
+              // ),
+              Flexible(
+                  flex: 2,
+                  child: Timer()),
+             //Timer()
+             //  const SizedBox(
+             //    height: 40,
+             //  ),
+              Flexible(
+                flex: 5,
+                child: Laps(), ),
+             // Laps(),
+              const SizedBox(
+                height: 45,
+              ),
+              Flexible(
+                flex: 1,
+                child:   Controls(), ),
+            //  Controls(),
+            ],
           ),
         ),
       ),

@@ -13,13 +13,12 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller;
-    controller = PersistentTabController(initialIndex: 0);
+    controller = PersistentTabController(initialIndex: 1);
 
     List<Widget> _buildScreens() {
       return [
          Clock_page(),
          Stopwatch_page(),
-
          Stopwatch_page(),
          Stopwatch_page(),
       ];
@@ -68,6 +67,7 @@ class BottomNavBar extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
+
       backgroundColor: Colors.grey.shade800,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset:
@@ -78,6 +78,7 @@ class BottomNavBar extends StatelessWidget {
 
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(color: Colors.lightBlueAccent, width: 2.0),
         colorBehindNavBar: Colors.grey.shade800,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -93,7 +94,7 @@ class BottomNavBar extends StatelessWidget {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-      NavBarStyle.style6,
+      NavBarStyle.style1,
     );
   }
 }
