@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:http/http.dart' as http;
+import '../models/Country.dart';
 
 class ClockController extends GetxController {
   RxList<Country> countries = <Country>[
@@ -120,15 +121,3 @@ class ClockControllerBinding extends Bindings {
 }
 
 
-class Country {
-  final String name;
-  final String timezone;
-
-  Country({required this.name, required this.timezone});
-
-  factory Country.fromMap(Map<String, dynamic> map) {
-    return Country(
-      name: map['name'],
-      timezone: map['timezones'],
-    );
-  }}
