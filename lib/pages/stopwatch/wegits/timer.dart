@@ -3,7 +3,7 @@ import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:stopwatch/controllers/stopwatch_controller.dart';
+import 'package:ClockMaster/controllers/stopwatch_controller.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 class Timer extends StatelessWidget {

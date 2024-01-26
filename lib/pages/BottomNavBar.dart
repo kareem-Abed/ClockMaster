@@ -1,100 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:stopwatch/pages/stopwatch/stopwatch.dart';
+import 'package:ClockMaster/pages/stopwatch/stopwatch.dart';
 
 import 'clock/clock_page.dart';
+import 'timer/timer_page.dart';
 
+class BottomNavBar extends StatefulWidget {
+  BottomNavBar({Key? key}) : super(key: key);
 
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
 
-class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+class _BottomNavBarState extends State<BottomNavBar> {
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [];
+  }
+
+  List page = [
+    ClockPage(),
+    StopwatchPage(),
+    TimerPage(),
+    StopwatchPage(),
+    // EditScreen(),
+  ];
+
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
-    PersistentTabController controller;
-    controller = PersistentTabController(initialIndex: 1);
-
-    List<Widget> _buildScreens() {
-      return [
-         Clock_page(),
-         Stopwatch_page(),
-         Stopwatch_page(),
-         Stopwatch_page(),
-      ];
-    }
-    Color activeColor=Colors.lightBlueAccent;
-    Color inactiveColor=Colors.grey;
-    List<PersistentBottomNavBarItem> _navBarsItems() {
-      return [
-        PersistentBottomNavBarItem(
-          icon:  FaIcon(FontAwesomeIcons.clock),
-          iconSize: 30,
-          title: ("Clock"),
-          activeColorPrimary: activeColor,
-          inactiveColorPrimary:inactiveColor,
+    return Scaffold(
+      body: page[_selectedIndex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[800], // unselected icon color
+          // Set the background color of the container
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+          // Add a shadow effect
+          border: Border.all(
+            color: Colors.lightBlueAccent,
+            width: 1,
+          ), // Add a border around the container
         ),
-        PersistentBottomNavBarItem(
-          icon:  FaIcon(FontAwesomeIcons.stopwatch),
-          iconSize: 30,
-          title: ("Stopwatch"),
-          activeColorPrimary: activeColor,
-          inactiveColorPrimary:inactiveColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: GNav(
+              haptic: true,
+              tabBorderRadius: 12,
+              tabBackgroundColor: Colors.lightBlue
+                  .withOpacity(0.2), // selected tab background color
+
+              rippleColor: Colors.lightBlueAccent[100]!,
+              hoverColor: Colors.lightBlueAccent[100]!,
+              gap: 3,
+              activeColor: Colors.lightBlueAccent,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              duration: Duration(milliseconds: 200),
+              color: Colors.lightBlueAccent,
+              tabs: const [
+                GButton(
+                  icon: FontAwesomeIcons.clock,
+                  text: " Clock",
+                ),
+                GButton(
+                  icon: FontAwesomeIcons.stopwatch,
+                  text: "Stopwatch",
+                ),
+                GButton(
+                  icon: FontAwesomeIcons.hourglassHalf,
+                  text: "Timer",
+                ),
+                GButton(
+                  icon: Icons.alarm,
+                  text: "Alarm",
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              }),
         ),
-
-        PersistentBottomNavBarItem( iconSize: 30,
-          icon:FaIcon(FontAwesomeIcons.hourglassHalf),
-          title: ("Timer"),
-          activeColorPrimary: activeColor,
-          inactiveColorPrimary: inactiveColor,
-        ),
-        PersistentBottomNavBarItem( iconSize: 30,
-          icon:Icon(Icons.alarm),
-          title: ("Alarm"),
-
-          activeColorPrimary: activeColor,
-          inactiveColorPrimary: inactiveColor,
-        ),
-      ];
-    }
-
-    return PersistentTabView(
-
-      context,
-      navBarHeight: 70,
-
-      controller: controller,
-      screens: _buildScreens(),
-      items: _navBarsItems(),
-      confineInSafeArea: true,
-
-      backgroundColor: Colors.grey.shade800,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset:
-      true,
-      stateManagement: true,
-      hideNavigationBarWhenKeyboardShows:
-      true,
-
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: Colors.lightBlueAccent, width: 2.0),
-        colorBehindNavBar: Colors.grey.shade800,
       ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: const ItemAnimationProperties(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
-      ),
-      screenTransitionAnimation: const ScreenTransitionAnimation(
-
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
-      navBarStyle:
-      NavBarStyle.style1,
     );
   }
 }

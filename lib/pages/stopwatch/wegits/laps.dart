@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:stopwatch/controllers/stopwatch_controller.dart';
+import 'package:ClockMaster/controllers/stopwatch_controller.dart';
 
 class Laps extends StatelessWidget {
   Laps({super.key});

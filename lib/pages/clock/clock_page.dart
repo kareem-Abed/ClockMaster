@@ -1,16 +1,24 @@
 import 'dart:convert';
+import 'package:analog_clock/analog_clock.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:intl/intl.dart';
 
 import 'package:get/get.dart';
+import 'package:ClockMaster/pages/clock/wegits/analog_clock.dart';
+import 'package:ClockMaster/pages/clock/wegits/world_clock.dart';
 
 import '../../controllers/clock_controller.dart';
 
 
-class Clock_page extends StatelessWidget {
+class ClockPage extends StatefulWidget {
 
+  @override
+  State<ClockPage> createState() => _ClockPageState();
+}
+
+class _ClockPageState extends State<ClockPage> {
   final controller = Get.put(ClockController());
 
   @override
@@ -22,178 +30,22 @@ class Clock_page extends StatelessWidget {
           alignment: Alignment.center,
           child: Column(
             children: [
-              SizedBox(height: 10),
+
+
               ClockView(),
-              Expanded(
-                child: GetBuilder<ClockController>(
-                  builder: (controller) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
-                        ),
-                        itemCount: controller.countries.length,
-                        itemBuilder: (context, index) {
-                          return buildWorldClock(controller.countries[index], controller.countryTimes[index]);
-                        },
-                      ),
-        
-                    );
-                  },
-                ),
-              ),
-        
+              SizedBox(height: 8),
+              buildWorldClock(),
+
             ],
           ),
         ),
       ),
     );
   }
-  Widget buildWorldClock(Country country, DateTime countryTime) {
-    String formattedTime = DateFormat('h:mm:ss a').format(countryTime);
-    return Container(
 
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            country.name,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-          Text(
-            '$formattedTime',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400,color: Colors.lightBlueAccent),
-          ),
-
-        ],
-      ),
-    );
-  }
 
 
 
 }
 
 
-class ClockView extends StatefulWidget {
-  @override
-  _ClockViewState createState() => _ClockViewState();
-}
-
-class _ClockViewState extends State<ClockView> {
-  @override
-  void initState() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 300,
-
-      child: Transform.rotate(
-        angle: -pi / 2,
-        child: CustomPaint(
-          painter: ClockPainter(),
-        ),
-      ),
-    );
-  }
-}
-
-class ClockPainter extends CustomPainter {
-  var dateTime = DateTime.now();
-
-  //60 sec - 360, 1 sec - 6degree
-  //12 hours  - 360, 1 hour - 30degrees, 1 min - 0.5degrees
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    var centerX = size.width / 2;
-    var centerY = size.height / 2;
-    var center = Offset(centerX, centerY);
-    var radius = min(centerX, centerY);
-    var fillBrush = Paint()..color =Colors.lightBlueAccent.shade700;
-    //var fillBrush = Paint()..color = Color(0xFF444974);
-
-    var outlineBrush = Paint()
-      ..color = Color(0xFFEAECFF)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 16;
-
-    var centerFillBrush = Paint()..color = Color(0xFFEAECFF);
-
-    var secHandBrush = Paint()
-      ..color = Colors.orange
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 5;
-
-    var minHandBrush = Paint()
-      ..shader = RadialGradient(colors: [Colors.deepOrange, Color(0xFFC279FB)])
-          .createShader(Rect.fromCircle(center: center, radius: radius))
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 8;
-
-    var hourHandBrush = Paint()
-      ..shader = RadialGradient(colors: [Color(0xFFEA74AB), Color(0xFFC279FB)])
-          .createShader(Rect.fromCircle(center: center, radius: radius))
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12;
-
-    var dashBrush = Paint()
-      ..color = Color(0xFFEAECFF)
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 1;
-
-    canvas.drawCircle(center, radius - 40, fillBrush);
-    canvas.drawCircle(center, radius - 40, outlineBrush);
-
-    var hourHandX = centerX +
-        60 * cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
-    var hourHandY = centerX +
-        60 * sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
-    canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
-
-    var minHandX = centerX + 80 * cos(dateTime.minute * 6 * pi / 180);
-    var minHandY = centerX + 80 * sin(dateTime.minute * 6 * pi / 180);
-    canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush);
-
-    var secHandX = centerX + 80 * cos(dateTime.second * 6 * pi / 180);
-    var secHandY = centerX + 80 * sin(dateTime.second * 6 * pi / 180);
-    canvas.drawLine(center, Offset(secHandX, secHandY), secHandBrush);
-
-    canvas.drawCircle(center, 16, centerFillBrush);
-
-    var outerCircleRadius = radius;
-    var innerCircleRadius = radius - 14;
-    for (double i = 0; i < 360; i += 12) {
-      var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
-      var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
-
-      var x2 = centerX + innerCircleRadius * cos(i * pi / 180);
-      var y2 = centerX + innerCircleRadius * sin(i * pi / 180);
-      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}

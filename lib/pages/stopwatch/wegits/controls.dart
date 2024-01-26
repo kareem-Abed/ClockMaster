@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:stopwatch/controllers/stopwatch_controller.dart';
+import 'package:ClockMaster/controllers/stopwatch_controller.dart';
 
 class Controls extends StatelessWidget {
   Controls({super.key});
@@ -9,7 +9,7 @@ class Controls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      // height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -32,20 +32,18 @@ class Controls extends StatelessWidget {
               ),
             ),
           ),
+
           GestureDetector(
             onTap: controller.StartAndpause,
-            child: Container(
+            child:  CircleAvatar(
+              backgroundColor: Colors.grey[800],
+              radius: 35,
 
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Obx(
-                () => Icon(
+              child:  Obx(
+                    () => Icon(
                   controller.isRunning.value ? Icons.pause : Icons.play_arrow,
                   color: Colors.lightBlueAccent,
-                  size: 30,
+                  size: 40,
                 ),
               ),
             ),
