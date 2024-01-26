@@ -16,16 +16,13 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [];
-  }
+
 
   List page = [
     ClockPage(),
     StopwatchPage(),
     TimerPage(),
-    StopwatchPage(),
-    // EditScreen(),
+   // StopwatchPage(),
   ];
 
   int _selectedIndex = 1;
@@ -75,10 +72,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   icon: FontAwesomeIcons.hourglassHalf,
                   text: "Timer",
                 ),
-                GButton(
-                  icon: Icons.alarm,
-                  text: "Alarm",
-                ),
+                // GButton(
+                //   icon: Icons.alarm,
+                //   text: "Alarm",
+                // ),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

@@ -28,7 +28,7 @@ class _ClockViewState extends State<ClockView> {
         child: AnalogClock(
           decoration: BoxDecoration(
               border: Border.all(width: 2.0, color: Colors.lightBlueAccent),
-              color: Colors.black45,
+              color: Colors.grey[900]!,
               shape: BoxShape.circle),
           width: 150.0,
           isLive: true,

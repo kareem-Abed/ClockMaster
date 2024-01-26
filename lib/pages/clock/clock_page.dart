@@ -12,6 +12,7 @@ import 'package:ClockMaster/pages/clock/wegits/world_clock.dart';
 import '../../controllers/clock_controller.dart';
 
 
+
 class ClockPage extends StatefulWidget {
 
   @override
@@ -30,9 +31,7 @@ class _ClockPageState extends State<ClockPage> {
           alignment: Alignment.center,
           child: Column(
             children: [
-
-
-              ClockView(),
+             ClockView(),
               SizedBox(height: 8),
               buildWorldClock(),
 
